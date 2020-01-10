@@ -40,12 +40,8 @@ module PciProxy
     def client
       @client ||= Faraday.new(@api_endpoint) do |client|
         client.request :url_encoded
-        client.headers['Authorization'] = "Basic #{basic_auth}"
+        client.basic_auth(@api_username, @api_password)
       end
-    end
-
-    def basic_auth
-      Base64.encode64("#{@api_username}:#{@api_password}")
     end
 
     def request(http_method:, endpoint:, params: {})
