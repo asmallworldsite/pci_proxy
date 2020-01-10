@@ -1,4 +1,7 @@
+require 'bundler'
 require "pci_proxy/version"
+require 'faraday'
+require 'multi_json'
 
 module PciProxy
   PciProxyAPIError = Class.new(StandardError)
@@ -28,11 +31,8 @@ module PciProxy
       @api_password = api_password
     end
 
-    def foo_bar
-      request(
-          http_method: :get,
-          endpoint: "users/#{username}/repos"
-      )
+    def token(transaction_id:)
+      request(params: { transactionId: transaction_id, returnPaymentMethod: true, mandatoryAliasCVV: true })
     end
 
     private
@@ -40,15 +40,17 @@ module PciProxy
     def client
       @client ||= Faraday.new(@api_endpoint) do |client|
         client.request :url_encoded
+        client.adapter Faraday.default_adapter
         client.basic_auth(@api_username, @api_password)
       end
     end
 
-    def request(http_method:, endpoint:, params: {})
+    def request(endpoint: @api_endpoint, http_method: :get, params: {})
       response = client.public_send(http_method, endpoint, params)
-      parsed_response = MultiXml.parse(response.body)
 
-      return parsed_response if response_successful?(response)
+      if response_successful?(response)
+        return MultiJson.load(response.body)
+      end
 
       raise error_class(response), "HTTP status: #{response.status}, Response: #{response.body}"
     end
