@@ -28,14 +28,22 @@ Pull requests are most welcome for coverage of other PCI Proxy APIs :)
 Create an instance of ```PciProxy::Token``` and call ```execute``` as follows:
 ```ruby
 client = PciProxy::Token.new(api_username: 'username', api_password: 'password')
-client.execute(transaction_id: '1234567890')
-
-=> {"aliasCC"=>"411111GGCMUJ1111", "aliasCVV"=>"vCslSwP0SQ9JXJy-nDzLKHaS"}
 ```
 
-In the event of a 200 OK response, the JSON response body is returned as a hash. In the event of an error, a subclass of ```PciProxyAPIError``` will be raised.
+And execute a token exchange like so:
+```ruby
+client.execute(transaction_id: '1234567890')
+```
 
-The most likely error is that the transactionId temporary token has expired. This would result in:
+In the event of a 200 OK response, the JSON response body is returned as a hash, for example:
+
+```ruby
+{"aliasCC"=>"411111GGCMUJ1111", "aliasCVV"=>"vCslSwP0SQ9JXJy-nDzLKHaS"}
+```
+
+In the event of an error, a subclass of ```PciProxyAPIError``` will be raised.
+
+The most likely error is that the transactionId temporary token has expired, resulting in:
 
 ```ruby
 PciProxy::BadRequestError (HTTP status: 400, Response: Tokenization not found)
