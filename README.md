@@ -1,8 +1,6 @@
 # PciProxy
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pci_proxy`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A simple client library for [PCI Proxy](https://pci-proxy.com)'s API
 
 ## Installation
 
@@ -22,8 +20,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Initially, this gem only covers the token API, which converts a transactionId from the [secure fields](https://docs.pci-proxy.com/collect-and-store-cards/capture-iframes) mechanism into tokenised card PAN and CVV.
 
+Pull requests are most welcome for coverage of other PCI Proxy APIs :)
+### Token API - Usage
+
+Create an instance of ```PciProxy::Token``` and call ```execute``` as follows:
+```ruby
+client = PciProxy::Token.new(api_username: 'username', api_password: 'password')
+client.execute(transaction_id: '1234567890')
+
+=> {"aliasCC"=>"411111GGCMUJ1111", "aliasCVV"=>"vCslSwP0SQ9JXJy-nDzLKHaS"}
+```
+
+In the event of a 200 OK response, the JSON response body is returned as a hash. In the event of an error, a subclass of ```PciProxyAPIError``` will be raised.
+ 
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -32,7 +43,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pci_proxy. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/asmallworldsite/pci_proxy. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
