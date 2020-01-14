@@ -35,6 +35,12 @@ client.execute(transaction_id: '1234567890')
 
 In the event of a 200 OK response, the JSON response body is returned as a hash. In the event of an error, a subclass of ```PciProxyAPIError``` will be raised.
 
+The most likely error is that the transactionId temporary token has expired. This would result in:
+
+```ruby
+PciProxy::BadRequestError (HTTP status: 400, Response: Tokenization not found)
+```
+
 ## Changes
 See [Changelog](CHANGELOG.md)
 
