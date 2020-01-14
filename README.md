@@ -45,7 +45,7 @@ In the event of an error, a subclass of ```PciProxyAPIError``` will be raised.
 
 The most likely error is that the transactionId temporary token has expired, resulting in:
 
-```ruby
+```
 PciProxy::BadRequestError (HTTP status: 400, Response: Tokenization not found)
 ```
 
