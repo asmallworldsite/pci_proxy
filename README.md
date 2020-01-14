@@ -7,7 +7,7 @@ A simple client library for [PCI Proxy](https://pci-proxy.com)'s API
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'pci_proxy'
+gem 'pci_proxy', '~> 1.0.0'
 ```
 
 And then execute:
