@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-Initially, this gem only covers the token API, which converts a transactionId from the [secure fields](https://docs.pci-proxy.com/collect-and-store-cards/capture-iframes) mechanism into tokenised card PAN and CVV.
+Initially, this gem only covers the [Token API](https://docs.pci-proxy.com/collect-and-store-cards/capture-iframes/token-api), which converts a transactionId from the [secure fields](https://docs.pci-proxy.com/collect-and-store-cards/capture-iframes) mechanism into tokenised card PAN and CVV.
 
 Pull requests are most welcome for coverage of other PCI Proxy APIs :)
 ### Token API - Usage
@@ -34,7 +34,10 @@ client.execute(transaction_id: '1234567890')
 ```
 
 In the event of a 200 OK response, the JSON response body is returned as a hash. In the event of an error, a subclass of ```PciProxyAPIError``` will be raised.
- 
+
+## Changes
+See [Changelog](CHANGELOG.md)
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
