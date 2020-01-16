@@ -18,7 +18,8 @@ module PciProxy
     # @raise [PciProxyAPIError] in cases where the API responds with a non-200 response code
     # @return [Hash] result from PCI Proxy, decoded from JSON
     def execute(transaction_id:, return_payment_method: true, cvv_mandatory: false)
-      request(params: { transactionId: transaction_id, returnPaymentMethod: return_payment_method, mandatoryAliasCVV: cvv_mandatory })
+      response = request(params: { transactionId: transaction_id, returnPaymentMethod: return_payment_method, mandatoryAliasCVV: cvv_mandatory })
+      PciProxy::Model::TokenisedCard.new(response)
     end
 
   end
