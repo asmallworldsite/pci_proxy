@@ -35,10 +35,10 @@ And execute a token exchange like so:
 client.execute(transaction_id: '1234567890')
 ```
 
-In the event of a 200 OK response, the JSON response body is returned as a hash, for example:
+In the event of a 200 OK response, an instance of PciProxy::Model::TokenisedCard is returned:
 
 ```ruby
-{"aliasCC"=>"411111GGCMUJ1111", "aliasCVV"=>"vCslSwP0SQ9JXJy-nDzLKHaS"}
+#<PciProxy::Model::TokenisedCard:0x00007fda073453f8 @response={"aliasCC"=>"411111GGCMUJ1111", "aliasCVV"=>"b8XeAbhQQES6OVWTpOCaAscj", "paymentMethod"=>"VIS"}, @pan_token="411111GGCMUJ1111", @cvv_token="b8XeAbhQQES6OVWTpOCaAscj", @type_slug=:visa>
 ```
 
 In the event of an error, a subclass of ```PciProxyAPIError``` will be raised.
