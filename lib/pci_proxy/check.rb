@@ -24,7 +24,7 @@ module PciProxy
     ##
     # Perform a check API request to verify the card token
     #
-    # @param +reference+ 
+    # @param +reference+
     def execute(reference:, card_token:, card_type:, expiry_month:, expiry_year:, currency: nil)
       raise "reference is required" if reference.empty?
       raise "card_token is required" unless card_token && !card_token.empty?
@@ -45,8 +45,6 @@ module PciProxy
           currency: currency,
           card: card
       }
-
-      puts MultiJson.dump(body)
 
       api_post(endpoint: @api_endpoint, body: body)
     end
