@@ -10,7 +10,7 @@ module PciProxy
         @transaction_id = response["transactionId"]
         @error = response["error"]
 
-        @status = @auth_code && @transaction_id && !@error ? 'success' : 'error'
+        @status = @auth_code && @transaction_id && !@error ? :success : :error
       end
 
     end

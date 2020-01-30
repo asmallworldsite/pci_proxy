@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pci_proxy (1.1.0)
+    pci_proxy (1.2.0)
       faraday (>= 0.8.9)
       multi_json (>= 1.10.0)
 
@@ -26,4 +26,4 @@ DEPENDENCIES
   rake (~> 10.0)
 
 BUNDLED WITH
-   2.1.2
+   2.1.4
