@@ -6,6 +6,9 @@ module PciProxy
 
     ##
     # Initialise with the specified +api_username+ and +api_password+ from PCI Proxy.
+    #
+    # Defaults to the sandbox API endpoint - to use the live environment,
+    # supply the LIVE_ENDPOINT constant as the value of the +endpoint+ kwarg
     def initialize(api_username:, api_password:, endpoint: SANDBOX_ENDPOINT)
       @api_endpoint = endpoint
       @api_username = api_username
