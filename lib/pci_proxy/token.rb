@@ -1,25 +1,35 @@
 module PciProxy
   class Token < Base
 
+    SANDBOX_ENDPOINT = 'https://api.sandbox.datatrans.com/upp/services/v1/inline/token'.freeze
+    LIVE_ENDPOINT = 'https://api.datatrans.com/upp/services/v1/inline/token'.freeze
+
     ##
     # Initialise with the specified +api_username+ and +api_password+ from PCI Proxy.
-    def initialize(api_username:, api_password:)
-      @api_endpoint = 'https://api.sandbox.datatrans.com/upp/services/v1/inline/token'.freeze
+    #
+    # Defaults to the sandbox API endpoint - to use the live environment,
+    # supply the LIVE_ENDPOINT constant as the value of the +endpoint+ kwarg
+    def initialize(api_username:, api_password:, endpoint: SANDBOX_ENDPOINT)
+      @api_endpoint = endpoint
       @api_username = api_username
       @api_password = api_password
     end
 
     ##
-    # Perform a token request to turn the specified +transaction_id+ into card and CVV tokens
+    # Perform a token API request to turn the specified +transaction_id+ into card and CVV tokens
     #
     # @param +return_payment_method+ (true/false) - whether or not to return the identified payment method (default: true)
     # @param +cvv_mandatory+ (true/false) - whether or not to consider the CVV alias should be mandatory (default: false)
     #
     # @raise [PciProxyAPIError] in cases where the API responds with a non-200 response code
-    # @return [Hash] result from PCI Proxy, decoded from JSON
+    # @return [PciProxy::Model::TokenisedCard] wrapper object around the JSON response
     def execute(transaction_id:, return_payment_method: true, cvv_mandatory: false)
-      response = request(params: { transactionId: transaction_id, returnPaymentMethod: return_payment_method, mandatoryAliasCVV: cvv_mandatory })
-      PciProxy::Model::TokenisedCard.new(response)
+      raise "transaction_id is required" unless transaction_id && !transaction_id.empty?
+
+      PciProxy::Model::TokenisedCard.new(api_get(params: {
+          transactionId: transaction_id,
+          returnPaymentMethod: return_payment_method,
+          mandatoryAliasCVV: cvv_mandatory }))
     end
 
   end

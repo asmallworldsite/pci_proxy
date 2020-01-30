@@ -4,6 +4,8 @@ require 'multi_json'
 module PciProxy
   class Base
 
+    JSON_UTF8_CONTENT_TYPE = 'application/json; charset=UTF-8'.freeze
+
     attr_reader :api_endpoint, :api_username, :api_password
 
     ##
@@ -17,19 +19,35 @@ module PciProxy
     end
 
     ##
-    # Perform the API request
+    # Perform an API request via HTTP GET
     #
     # @param +endpoint+ [String] (Optional) - the API endpoint to hit - defaults to the value of the api_endpoint reader
-    # @param +http_method+ [Symbol] (Optional) - the HTTP method to use - defaults to GET
-    # @param +params+ [Hash] (Optional) - any parameters to supply to the API call
+    # @param +params+ [Hash] (Optional) - any URL parameters to supply to the API call
     #
     # @raise [PciProxyAPIError] in cases where the API responds with a non-200 response code
     # @return [Hash] parsed JSON response
-    #
-    def request(endpoint: @api_endpoint, http_method: :get, params: {})
-      response = client.public_send(http_method, endpoint, params)
+    def api_get(endpoint: @api_endpoint, params: {}, raise_on_error: true)
+      response = client.get(endpoint, params)
 
-      if response.status == HTTP_OK_CODE
+      if raise_on_error == false || response.status == HTTP_OK_CODE
+        return MultiJson.load(response.body)
+      end
+
+      raise error_class(response), "HTTP status: #{response.status}, Response: #{response.body}"
+    end
+
+    ##
+    # Perform an API request via HTTP POST
+    #
+    # @param +endpoint+ [String] (Optional) - the API endpoint to hit - defaults to the value of the api_endpoint reader
+    # @param +body+ [Hash] (Optional) - the API request payload (will be converted to JSON)
+    #
+    # @raise [PciProxyAPIError] in cases where the API responds with a non-200 response code
+    # @return [Hash] parsed JSON response
+    def api_post(endpoint: @api_endpoint, body: {}, raise_on_error: true)
+      response = client.post(endpoint, MultiJson.dump(body), "Content-Type" => JSON_UTF8_CONTENT_TYPE)
+
+      if raise_on_error == false || response.status == HTTP_OK_CODE
         return MultiJson.load(response.body)
       end
 
