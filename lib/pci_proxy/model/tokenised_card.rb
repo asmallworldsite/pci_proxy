@@ -2,7 +2,7 @@ module PciProxy
   module Model
     class TokenisedCard
 
-      attr_reader :pan_token, :cvv_token, :type_slug, :response
+      attr_reader :response, :pan_token, :cvv_token, :type_slug
 
       def initialize(response)
         @response = response

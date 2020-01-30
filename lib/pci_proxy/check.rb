@@ -55,7 +55,7 @@ module PciProxy
           card: card
       }
 
-      api_post(endpoint: @api_endpoint, body: body)
+      PciProxy::Model::CheckResult.new(api_post(endpoint: @api_endpoint, body: body, raise_on_error: false))
     end
 
   end

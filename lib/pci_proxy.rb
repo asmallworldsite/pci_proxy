@@ -4,6 +4,7 @@ require "pci_proxy/version"
 require 'pci_proxy/base'
 require 'pci_proxy/check'
 require 'pci_proxy/token'
+require 'pci_proxy/model/check_result'
 require 'pci_proxy/model/tokenised_card'
 
 module PciProxy

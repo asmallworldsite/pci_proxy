@@ -26,10 +26,10 @@ module PciProxy
     #
     # @raise [PciProxyAPIError] in cases where the API responds with a non-200 response code
     # @return [Hash] parsed JSON response
-    def api_get(endpoint: @api_endpoint, params: {})
+    def api_get(endpoint: @api_endpoint, params: {}, raise_on_error: true)
       response = client.get(endpoint, params)
 
-      if response.status == HTTP_OK_CODE
+      if raise_on_error == false || response.status == HTTP_OK_CODE
         return MultiJson.load(response.body)
       end
 
@@ -44,10 +44,10 @@ module PciProxy
     #
     # @raise [PciProxyAPIError] in cases where the API responds with a non-200 response code
     # @return [Hash] parsed JSON response
-    def api_post(endpoint: @api_endpoint, body: {})
+    def api_post(endpoint: @api_endpoint, body: {}, raise_on_error: true)
       response = client.post(endpoint, MultiJson.dump(body), "Content-Type" => JSON_UTF8_CONTENT_TYPE)
 
-      if response.status == HTTP_OK_CODE
+      if raise_on_error == false || response.status == HTTP_OK_CODE
         return MultiJson.load(response.body)
       end
 
