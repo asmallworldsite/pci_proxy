@@ -16,7 +16,7 @@ module PciProxy
     end
 
     ##
-    # Perform a token request to turn the specified +transaction_id+ into card and CVV tokens
+    # Perform a token API request to turn the specified +transaction_id+ into card and CVV tokens
     #
     # @param +return_payment_method+ (true/false) - whether or not to return the identified payment method (default: true)
     # @param +cvv_mandatory+ (true/false) - whether or not to consider the CVV alias should be mandatory (default: false)

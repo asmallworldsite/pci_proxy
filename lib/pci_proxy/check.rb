@@ -21,14 +21,18 @@ module PciProxy
       @api_password = api_password
     end
 
-    def execute(reference:, card_token:, card_type:, expiry_month:, expiry_year:)
+    ##
+    # Perform a check API request to verify the card token
+    #
+    # @param +reference+ 
+    def execute(reference:, card_token:, card_type:, expiry_month:, expiry_year:, currency: nil)
       raise "reference is required" if reference.empty?
       raise "card_token is required" unless card_token && !card_token.empty?
       raise "card_type must be one of 'visa', 'mastercard' or 'amex'" unless [:visa, :mastercard, :amex].include?(card_type.to_sym)
       raise "invalid expiry_month" unless (1..12).include?(expiry_month.to_i)
       raise "invalid expiry_year" unless expiry_year.to_i > 0
 
-      currency = :amex == card_type ? EUR : CHF
+      currency ||= :amex == card_type ? EUR : CHF
 
       card = {
           alias: card_token,
