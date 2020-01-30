@@ -1,10 +1,13 @@
 module PciProxy
   class Token < Base
 
+    SANDBOX_ENDPOINT = 'https://api.sandbox.datatrans.com/upp/services/v1/inline/token'.freeze
+    LIVE_ENDPOINT = 'https://api.datatrans.com/upp/services/v1/inline/token'.freeze
+
     ##
     # Initialise with the specified +api_username+ and +api_password+ from PCI Proxy.
-    def initialize(api_username:, api_password:)
-      @api_endpoint = 'https://api.sandbox.datatrans.com/upp/services/v1/inline/token'.freeze
+    def initialize(api_username:, api_password:, endpoint: SANDBOX_ENDPOINT)
+      @api_endpoint = endpoint
       @api_username = api_username
       @api_password = api_password
     end
@@ -18,7 +21,9 @@ module PciProxy
     # @raise [PciProxyAPIError] in cases where the API responds with a non-200 response code
     # @return [Hash] result from PCI Proxy, decoded from JSON
     def execute(transaction_id:, return_payment_method: true, cvv_mandatory: false)
-      response = request(params: { transactionId: transaction_id, returnPaymentMethod: return_payment_method, mandatoryAliasCVV: cvv_mandatory })
+      raise "transaction_id is required" unless transaction_id && !transaction_id.empty?
+
+      response = api_get(params: { transactionId: transaction_id, returnPaymentMethod: return_payment_method, mandatoryAliasCVV: cvv_mandatory })
       PciProxy::Model::TokenisedCard.new(response)
     end
 

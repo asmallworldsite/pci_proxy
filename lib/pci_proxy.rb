@@ -2,6 +2,7 @@ require 'bundler'
 require "pci_proxy/version"
 
 require 'pci_proxy/base'
+require 'pci_proxy/check'
 require 'pci_proxy/token'
 require 'pci_proxy/model/tokenised_card'
 
@@ -20,4 +21,5 @@ module PciProxy
   HTTP_FORBIDDEN_CODE = 403
   HTTP_NOT_FOUND_CODE = 404
   HTTP_UNPROCESSABLE_ENTITY_CODE = 429
+
 end
