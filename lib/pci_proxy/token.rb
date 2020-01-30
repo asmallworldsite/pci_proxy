@@ -26,8 +26,10 @@ module PciProxy
     def execute(transaction_id:, return_payment_method: true, cvv_mandatory: false)
       raise "transaction_id is required" unless transaction_id && !transaction_id.empty?
 
-      response = api_get(params: { transactionId: transaction_id, returnPaymentMethod: return_payment_method, mandatoryAliasCVV: cvv_mandatory })
-      PciProxy::Model::TokenisedCard.new(response)
+      PciProxy::Model::TokenisedCard.new(api_get(params: {
+          transactionId: transaction_id,
+          returnPaymentMethod: return_payment_method,
+          mandatoryAliasCVV: cvv_mandatory }))
     end
 
   end
