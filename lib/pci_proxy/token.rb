@@ -22,7 +22,7 @@ module PciProxy
     # @param +cvv_mandatory+ (true/false) - whether or not to consider the CVV alias should be mandatory (default: false)
     #
     # @raise [PciProxyAPIError] in cases where the API responds with a non-200 response code
-    # @return [Hash] result from PCI Proxy, decoded from JSON
+    # @return [PciProxy::Model::TokenisedCard] wrapper object around the JSON response
     def execute(transaction_id:, return_payment_method: true, cvv_mandatory: false)
       raise "transaction_id is required" unless transaction_id && !transaction_id.empty?
 

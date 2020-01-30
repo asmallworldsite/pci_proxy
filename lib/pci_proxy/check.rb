@@ -24,7 +24,15 @@ module PciProxy
     ##
     # Perform a check API request to verify the card token
     #
-    # @param +reference+
+    # @param +reference+ [String] - caller's unique reference (any non-empty string value)
+    # @param +card_token+ [String] - card token obtained from the Token API - see PciProxy::Token
+    # @param +card_type+ [Symbol / String] - one of 'visa', 'mastercard' or 'amex'
+    # @param +expiry_month+ [Integer / String] - integer 1-12, or string '01' - '12'
+    # @param +expiry_year+ [Integer / String] - two or four digit year as a string or integer
+    # @param +currency+ [Integer / String] (Optional) - one of 'CHF' or 'EUR' - will default by card type where not specified
+    #
+    # @raise [PciProxyAPIError] in cases where the API responds with a non-200 response code
+    # @return [Hash] result from PCI Proxy, decoded from JSON
     def execute(reference:, card_token:, card_type:, expiry_month:, expiry_year:, currency: nil)
       raise "reference is required" if reference.empty?
       raise "card_token is required" unless card_token && !card_token.empty?
@@ -32,6 +40,7 @@ module PciProxy
       raise "invalid expiry_month" unless (1..12).include?(expiry_month.to_i)
       raise "invalid expiry_year" unless expiry_year.to_i > 0
 
+      # default the currency where not specified - according to the documentation Amex should use EUR, Visa and MC should use CHF
       currency ||= :amex == card_type ? EUR : CHF
 
       card = {
