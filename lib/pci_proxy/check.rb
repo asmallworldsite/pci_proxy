@@ -41,7 +41,7 @@ module PciProxy
       raise "invalid expiry_year" unless expiry_year.to_i > 0
 
       # default the currency where not specified - according to the documentation Amex should use EUR, Visa and MC should use CHF
-      currency ||= :amex == card_type ? EUR : CHF
+      currency ||= :amex == card_type.to_sym ? EUR : CHF
 
       card = {
           alias: card_token,

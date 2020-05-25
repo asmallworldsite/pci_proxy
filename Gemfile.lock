@@ -1,14 +1,14 @@
 PATH
   remote: .
   specs:
-    pci_proxy (1.2.0)
+    pci_proxy (1.2.2)
       faraday (>= 0.8.9)
       multi_json (>= 1.10.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    faraday (1.0.0)
+    faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
     minitest (5.13.0)
     multi_json (1.14.1)
