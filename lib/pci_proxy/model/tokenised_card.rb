@@ -2,12 +2,13 @@ module PciProxy
   module Model
     class TokenisedCard
 
-      attr_reader :response, :pan_token, :cvv_token, :type_slug
+      attr_reader :response, :pan_token, :cvv_token, :type_slug, :masked_pan
 
       def initialize(response)
         @response = response
         @pan_token = response["aliasCC"]
         @cvv_token = response["aliasCVV"]
+        @masked_pan = response["maskedCard"]
         @type_slug = slug_for(response["paymentMethod"])
       end
 
