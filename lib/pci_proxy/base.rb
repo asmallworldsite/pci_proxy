@@ -14,7 +14,7 @@ module PciProxy
       @client ||= Faraday.new(@api_endpoint) do |client|
         client.request :url_encoded
         client.adapter Faraday.default_adapter
-        client.basic_auth(@api_username, @api_password)
+        client.request(:authorization, :basic, @api_username, @api_password)
       end
     end
 
